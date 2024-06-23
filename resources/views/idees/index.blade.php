@@ -63,7 +63,7 @@
                                 <p>{{$idee->description}}</p>
                             </div>
 
-                            {{-- <a href="#">voir plus</a> --}}
+                            <a href="{{ route('idees.show', $idee->id) }}"class="btn btn-primariry">>voir plus</a>
                             <br>
                             <a href="{{ route('idees.edit', $idee->id) }}" class="btn btn-warning">Modifier</a>
 

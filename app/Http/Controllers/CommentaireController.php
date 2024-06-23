@@ -16,14 +16,15 @@ class CommentaireController extends Controller
 
     public function create()
     {
-        return view('commentaires.create');
+        return view('idees.show');
     }
-
     public function store(CommentaireValidation $request)
     {
-        Commentaire::create($request->validated());
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->id();
+        Commentaire::create($validatedData);
 
-        return redirect()->route('commentaires.index')->with('success', 'Commentaire créé avec succès');
+        return redirect()->route('idees.show', ['idee' => $request->idee_id])->with('success', 'Commentaire créé avec succès');
     }
 
     public function show(Commentaire $commentaire)
@@ -38,10 +39,14 @@ class CommentaireController extends Controller
 
     public function update(CommentaireValidation $request, Commentaire $commentaire)
     {
-        $commentaire->update($request->validated());
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->id();
+
+        $commentaire->update($validatedData);
 
         return redirect()->route('commentaires.index')->with('success', 'Commentaire mis à jour avec succès');
     }
+
 
     public function destroy(Commentaire $commentaire)
     {

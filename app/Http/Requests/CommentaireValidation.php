@@ -25,7 +25,6 @@ class CommentaireValidation extends FormRequest
             //
             'contenu' => 'required',
             'idee_id' => 'required|exists:idees,id',
-            'user_id' => 'required|exists:users,id',
         ];
     }
 }
