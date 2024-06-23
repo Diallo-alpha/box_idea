@@ -14,6 +14,7 @@ class Idee extends Model
         'description',
         'status',
         'user_id',
+        'categorie_id',
     ];
 
     /**

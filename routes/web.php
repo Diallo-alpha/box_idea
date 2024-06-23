@@ -1,8 +1,10 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\IdeeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\CommentaireController;
 
 Route::resource('users', UserController::class);
 
@@ -29,3 +31,5 @@ Route::resource('categories', CategorieController::class)->parameters([
     'update' => 'categories.update',
     'destroy' => 'categories.destroy'
 ]);
+Route::resource('idees', IdeeController::class);
+Route::resource('commentaires', CommentaireController::class);
