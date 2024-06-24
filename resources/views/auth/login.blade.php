@@ -85,7 +85,7 @@
               <div class="text-center text-muted mb-4">
                 connectez-vous avec vos identifiants
               </div>
-              <form role="form" method="POST" action="{{ route('login') }}">
+              <form role="form" method="POST" action="{{ route('login.post') }}">
                 @csrf
                 <div class="form-group">
                   <div class="input-group input-group-alternative mb-3">

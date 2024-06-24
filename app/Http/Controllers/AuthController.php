@@ -49,7 +49,14 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            return redirect('/idees');
+            $user = Auth::user();
+
+            // Redirection basée sur le rôle de l'utilisateur
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.index');
+            } else {
+                return redirect()->route('idees.index');
+            }
         }
 
         return back()->withErrors([
@@ -59,8 +66,10 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return response()->json(['message' => 'Déconnexion réussie']);
+        return redirect()->route('login');
     }
 }

@@ -49,6 +49,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+        /**
+     * Vérifie si l'utilisateur a le rôle spécifié.
+     *
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
 
     /**
      * Un utilisateur peut ajouter zéro ou plusieurs idées.

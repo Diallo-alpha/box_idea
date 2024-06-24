@@ -18,7 +18,15 @@
             <h1 style="margin:0px;"><span class="largenav">Boite à idée</span></h1>
         </div>
         <div class="col-sm-8">
-            <button class="btn btn-danger logout-btn">Déconnexion</button>
+                <a href="{{ route('auth.logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
+                   <button class="btn btn-danger logout-btn">Déconnexion</button>
+
+                   {{-- <i class="fa-solid fa-sign-out-alt"></i> Déconnexion --}}
+                </a>
+                <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
         </div>
     </div>
     <section class="header-area header-one">
