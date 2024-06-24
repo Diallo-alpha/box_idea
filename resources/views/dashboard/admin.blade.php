@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -11,13 +12,13 @@
 <body>
     <div class="sidebar">
         <ul>
-            <li class="">
+            <li>
                 <a href="#">
                     <i class="fa-solid fa-bars-progress"></i> Tableau de Bord
                 </a>
             </li>
 
-            <li class="">
+            <li>
                 <a href="{{ route('auth.logout') }}"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
                    <i class="fa-solid fa-sign-out-alt"></i> Déconnexion
@@ -30,36 +31,56 @@
     </div>
     <div class="dashboard">
         <main class="main-content">
-            <h1>IDÉES REÇCU</h1>
+            <h1>IDÉES REÇUES</h1>
+
+            <!-- Messages d'erreur -->
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Messages de succès -->
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <section class="section-content">
-                <table>
+                <table class="table">
                     <thead>
                         <tr>
-                            <th>Nom</th>
-                            <th>Prénom</th>
+                            <th>Titre</th>
+                            <th>Description</th>
                             <th>Email</th>
-                            <th>categories</th>
-                            <th>ACCEPTER</th>
-                            <th>REJETR</th>
+                            <th>Catégorie</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Développement web</td>
-                            <td>20/01/2023</td>
-                            <td>14/11/2024</td>
-                            <td>Nouriture</td>
-                            <td><span class="status en-cours">en cours</span></td>
-                            <td><button>Supprimer</button></td>
-                        </tr>
-                        <tr>
-                            <td>Développement web</td>
-                            <td>20/01/2023</td>
-                            <td>14/11/2024</td>
-                            <td>Nourriture</td>
-                            <td><span class="status en-cours">en cours</span></td>
-                            <td><button>Supprimer</button></td>
-                        </tr>
+                        @foreach($idees as $idee)
+                            <tr>
+                                <td>{{ $idee->titre }}</td>
+                                <td>{{ $idee->description }}</td>
+                                <td>{{ $idee->user->email }}</td>
+                                <td>{{ $idee->categorie->nom }}</td>
+                                <td><span class="status en-cours">{{ $idee->status }}</span></td>
+                                <td>
+                                    <a href="{{ route('idees.editStatus', $idee->id) }}" class="btn btn-primary btn-sm">Modifier</a>
+                                    <form action="{{ route('idees.destroy', $idee->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette idée?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </section>
